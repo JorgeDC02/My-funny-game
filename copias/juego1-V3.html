@@ -1,0 +1,197 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+#tablero{text-align: center;}
+.celdas{display: inline-block; border: 1px solid black; width: 25px; height: 25px; background-color: #bd5050;}
+.recorrido{display: inline-block; border: 1px solid black; width: 25px; height: 25px; background-color: green;}
+.recorrido-final{display: inline-block; border: 1px solid black; width: 25px; height: 25px; background-color: orange;}
+.perseguidor{display: inline-block; border: 1px solid black; width: 25px; height: 25px; background-color: red;}
+</style>
+</head>
+
+<body>
+	<h1>My enjoy game</h1>
+	<div id="tablero"></div>
+	
+	<script>
+	var fila = 18; var columna = 21;
+	var tablero = new Array(fila); 
+	
+	var perseguidor = new Array(2); //0=>Eje X, 1=>Eje Y
+	perseguidor[0] = 0;//Posicion inicial del objeto perseguidor, eje X
+	
+	var recorridoEjeX = []; recorridoEjeX[0] = 3;
+	var recorridoEjeY = [];
+	
+	var ultimoMovimiento = -1;
+	
+	for(var i=0; i<fila; i++) {
+		tablero[i] = new Array(columna);
+	}
+	
+	for(var j=0; j<fila; j++) {//Guardar tablero en memória
+		for(var i=0; i<columna; i++) {
+			tablero[j][i] = "<div class='celdas'></div>"
+		}
+	}
+	
+	function generarCeldaInicial(){
+		console.log("---------------generarCeldaInicial()---------------");
+		var celdaInicialY; //columna, Eje Y
+		celdaInicialY = Math.floor((Math.random() * 18) + 0);
+		console.log("Valor de X inicial: "+recorridoEjeX[0]);
+		console.log("Valor de Y inicial: "+celdaInicialY);
+		
+		recorridoEjeY[0] = celdaInicialY;//Guarda en memoria el eje Y de la posicion inicial
+		perseguidor[1] =  celdaInicialY; // Guarda en memoria el eje Y de la posicion inicial del perseguidor
+		
+		tablero[celdaInicialY][recorridoEjeX[0]] = "<div class='recorrido'></div>"
+		tablero[celdaInicialY][perseguidor[0]] = "<div class='perseguidor'></div>"
+	}
+	
+	function generaRecorrido(){
+		console.log("---------------generaRecorrido()---------------");
+		var posEjes;
+		
+		while(recorridoEjeX[recorridoEjeX.length-1] != 20){
+			posEjes = recorridoEjeX.length; //Dimensión del array eje X
+			console.log("==========[Valores del eje "+posEjes+"], longitud del array==========");
+			 if(recorridoEjeY[recorridoEjeY.length-1] == 0){
+				generaValorMovimiento(2, 0, posEjes);
+			 }
+			 else if(recorridoEjeY[recorridoEjeY.length-1] == 17){
+				generaValorMovimiento(2, 1, posEjes);
+			 }
+			 else{
+				generaValorMovimiento(3, 0, posEjes);
+			 }
+		}
+	}
+	
+	function generaValorMovimiento(v_max, v_min, v_ejes){
+		var opcionMovimiento = Math.floor((Math.random() * v_max)+v_min);
+		var numMovimientos = Math.floor((Math.random() * 4)+1);
+		console.log("Valor de v_ejes: "+v_ejes);
+		console.log("Valor de número de posiciones a mover: "+numMovimientos+", Valor del eje Y anterior =  "+recorridoEjeY[v_ejes-1]+", Valor del eje X anterior =  "+recorridoEjeX[v_ejes-1]);
+		var opcionMovimiento;
+		var coincideMovimientoAnt;
+		
+		if(ultimoMovimiento == 0 && opcionMovimiento == 2 || ultimoMovimiento == 2 && opcionMovimiento == 0){
+				coincideMovimientoAnt = true;
+			}
+		else{
+			coincideMovimientoAnt = false;
+		}
+
+		while(coincideMovimientoAnt == true){
+			if(ultimoMovimiento == 0 && opcionMovimiento == 2){
+				opcionMovimiento = Math.floor((Math.random() * v_max)+v_min);
+			}else if(ultimoMovimiento == 2 && opcionMovimiento == 0){
+				opcionMovimiento = Math.floor((Math.random() * v_max)+v_min);
+			}else{
+				coincideMovimientoAnt = false;
+			}
+		}
+		console.log("Valor de movimiento generado: "+opcionMovimiento);
+		if(opcionMovimiento == 0){ 		// 0 => Movimiento de BAJADA
+			console.log("----------------MOVIMIENTO DE BAJADA----------------");
+			if(recorridoEjeY[v_ejes-1] + numMovimientos > 17){
+				var count1 = 1;
+				
+				//recorridoEjeY[v_ejes] = 17;
+				//recorridoEjeX[v_ejes] = recorridoEjeX[v_ejes-1];
+				
+				while(recorridoEjeY[v_ejes-1]+count1 <= 17){
+					recorridoEjeX.push(recorridoEjeX[v_ejes-1]);
+					recorridoEjeY.push(recorridoEjeY[v_ejes-1]+count1);
+					//recorridoEjeY[v_ejes] = recorridoEjeY[v_ejes-1] + count1;
+					//recorridoEjeX[v_ejes] = recorridoEjeX[v_ejes-1];
+					count1++;
+					console.log("Valor de count1: " + count1);
+				}			
+			}else{
+				for(var i = 1; i <= numMovimientos; i++){
+					recorridoEjeX.push(recorridoEjeX[v_ejes-1]);
+					recorridoEjeY.push(recorridoEjeY[v_ejes-1] + i);
+				}
+			}
+		}
+		else if(opcionMovimiento == 1){ // 1 => Movimiento de HORIZONTAL
+					console.log("----------------MOVIMIENTO HORIZONTAL----------------");
+			if(recorridoEjeX[v_ejes-1] + numMovimientos > 20){
+				console.log("La suma del eje X mas numMovimientos es > 20");
+				var count = 1;
+				
+				//recorridoEjeY[v_ejes] = recorridoEjeY[v_ejes-1];
+				//recorridoEjeX[v_ejes] = 20;
+				
+				while(recorridoEjeX[v_ejes-1]+count <= 20){
+					recorridoEjeY.push(recorridoEjeY[v_ejes-1]);
+					recorridoEjeX.push(recorridoEjeX[v_ejes-1]+count);
+					count++;
+					console.log("Valor de count: " + count);
+					console.log("Valor de recorridoEjeX[v_ejes-1]: ".concat(recorridoEjeX[v_ejes-1]+count));
+				}
+			}else{
+				for(var i = 1; i <= numMovimientos; i++){
+					recorridoEjeX.push(recorridoEjeX[v_ejes-1]+i);
+					recorridoEjeY.push(recorridoEjeY[v_ejes-1]);
+				}
+			}
+		}
+		else { 							// 2 => Movimiento VERTICAL de SUBIDA
+			if(recorridoEjeY[v_ejes-1] - numMovimientos < 0){
+				var count3 = 1;
+				
+				//recorridoEjeY[v_ejes] = 0;
+				//recorridoEjeX[v_ejes] = recorridoEjeX[v_ejes-1];
+				
+				while(recorridoEjeY[v_ejes-1]-count3 >= 0){
+					recorridoEjeX.push(recorridoEjeX[v_ejes-1]);
+					recorridoEjeY.push(recorridoEjeY[v_ejes-1]-count3);
+					count3++;
+				}
+			}else{
+				for(var i = 1; i <= numMovimientos; i++){
+					recorridoEjeX.push(recorridoEjeX[v_ejes-1]);
+					recorridoEjeY.push(recorridoEjeY[v_ejes-1]-i);
+				}
+			}
+		}
+		ultimoMovimiento = opcionMovimiento; //Guarda en memória la última opción de movimiento
+		//tablero[recorridoEjeY[v_ejes]][recorridoEjeX[v_ejes]] = "<div class='recorrido'></div>";
+	}
+	
+	function verRecorrido(){
+		console.log("---------------verRecorrido()---------------");
+		console.log("Dimension del Array eje X: "+recorridoEjeX.length+", Dimension del Array eje Y: "+recorridoEjeX.length);
+		console.log("----------------------------------------------valores del array--------------------------------------------------------------------------");
+		for (var i = 0; i < recorridoEjeX.length; i++){
+			console.log("X[ "+i+"] = "+recorridoEjeX[i]+", Y["+i+"] = "+recorridoEjeY[i]);
+			tablero[recorridoEjeY[i]][recorridoEjeX[i]] = "<div class='recorrido'></div>";
+		}
+	}
+	
+	function mostrarTablero(){ //Inserta tablero guardado en memo en elemento div
+		console.log("---------------mostrarTablero()---------------");
+		for(var j=0; j<fila; j++) {
+			for(var i=0; i<columna; i++) {
+				$("#tablero").append(tablero[j][i]);
+			}
+			$("#tablero").append("<br>")
+		}
+	}
+	
+	generarCeldaInicial();
+	generaRecorrido();
+	verRecorrido();
+	mostrarTablero();
+	
+</script>
+</body>
+
+</html> 
