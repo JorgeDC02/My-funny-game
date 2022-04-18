@@ -38,6 +38,7 @@
 	<div id="tablero"></div>
 	
 	<script>
+		//todo reordenar orden del programa
 	var fila = 18; var columna = 21;
 	var tablero = new Array(fila); 
 	
@@ -54,7 +55,7 @@
 	
 	var ultimoMovimiento = -1;
 	
-	//Guardar tablero en memória
+	//Guardar tablero en memï¿½ria
 	for(var i=0; i<fila; i++) {
 		tablero[i] = new Array(columna);
 	}
@@ -64,10 +65,10 @@
 			tablero[j][i] = "<div class='celdas'></div>"
 		}
 	}
-	//Fin guardar tablero en memória
+	//Fin guardar tablero en memï¿½ria
 	
 	function generarCeldaInicial(){
-		recorridoEjeX[0] = 3; //Posición inicial del eje X
+		recorridoEjeX[0] = 3; //Posiciï¿½n inicial del eje X
 		console.log("---------------generarCeldaInicial()---------------");
 		var celdaInicialY; //columna, Eje Y
 		celdaInicialY = Math.floor((Math.random() * 18) + 0);
@@ -79,8 +80,8 @@
 		
 		jugadorEjeX = 0;
 		jugadorEjeY = celdaInicialY;
-		tablero[celdaInicialY][recorridoEjeX[0]] = '<div class="recorrido"><img width=25 src="raton.png"/></div>';
-		tablero[celdaInicialY][perseguidor[0]] = '<div class="celdas"><img width=25 src="gato.jpg"/></div>';
+		tablero[celdaInicialY][recorridoEjeX[0]] = '<div class="recorrido"><img width=25 src="img/raton.png"/></div>';
+		tablero[celdaInicialY][perseguidor[0]] = '<div class="celdas"><img width=25 src="img/gato.jpg"/></div>';
 		
 	}
 	
@@ -89,7 +90,7 @@
 		var posEjes;
 		
 		while(recorridoEjeX[recorridoEjeX.length-1] != 20){
-			posEjes = recorridoEjeX.length; //Dimensión del array eje X
+			posEjes = recorridoEjeX.length; //Dimensiï¿½n del array eje X
 			console.log("==========[Valores del eje "+posEjes+"], longitud del array==========");
 			 if(recorridoEjeY[recorridoEjeY.length-1] == 0){
 				generaValorMovimiento(2, 0, posEjes);
@@ -177,7 +178,7 @@
 				}
 			}
 		}
-		ultimoMovimiento = opcionMovimiento; //Guarda en memória la última opción de movimiento
+		ultimoMovimiento = opcionMovimiento; //Guarda en memï¿½ria la ï¿½ltima opciï¿½n de movimiento
 	}
 	
 	function verRecorrido(){
@@ -186,7 +187,7 @@
 			/*if (i == 0){
 				tablero[recorridoEjeY[i]][recorridoEjeX[i]] = '<div class="recorrido"><img width=25 src="raton.png"/></div>';
 			}else*/ if( i == recorridoEjeX.length-1){
-				tablero[recorridoEjeY[i]][recorridoEjeX[i]] = '<div class="recorrido"><img width=25 src="queso.jpg"/></div>';
+				tablero[recorridoEjeY[i]][recorridoEjeX[i]] = '<div class="recorrido"><img width=25 src="img/queso.jpg"/></div>';
 			}else{
 				tablero[recorridoEjeY[i]][recorridoEjeX[i]] = "<div class='recorrido'></div>";
 			}
@@ -220,9 +221,9 @@
 			
 			if($("#resultado").val() == desplazamiento){
 				if(acumulaSuma < recorridoEjeX.length-1){
-					tablero[recorridoEjeY[acumulaSuma]][recorridoEjeX[acumulaSuma]] = '<div class="recorrido"><img width=25 src="raton.png"/></div>';
+					tablero[recorridoEjeY[acumulaSuma]][recorridoEjeX[acumulaSuma]] = '<div class="recorrido"><img width=25 src="img/raton.png"/></div>';
 					tablero[recorridoEjeY[0]][perseguidor[0]] = '<div class="celdas"></div>';
-					tablero[recorridoEjeY[acumulaSuma-3]][recorridoEjeX[acumulaSuma-3]] = '<div class="celdas"><img width=25 src="gato.jpg"/></div>';
+					tablero[recorridoEjeY[acumulaSuma-3]][recorridoEjeX[acumulaSuma-3]] = '<div class="celdas"><img width=25 src="img/gato.jpg"/></div>';
 					num1 = Math.floor((Math.random() * 9)+1);
 					num2 = Math.floor((Math.random() * 9)+1);
 					$(".num1").empty(); $(".num2").empty();
@@ -233,8 +234,8 @@
 				}else{
 					//alert("HAS GANADO");
 					$("h1").text("HAS GANADO");
-					tablero[recorridoEjeY[recorridoEjeX.length-1]][recorridoEjeX[recorridoEjeX.length-1]] = '<div class="recorrido"><img width=25 src="raton.png"/></div>';
-					tablero[recorridoEjeY[(recorridoEjeX.length-1)-3]][recorridoEjeX[(recorridoEjeX.length-1)-3]] = '<div class="celdas"><img width=25 src="gato.jpg"/></div>';
+					tablero[recorridoEjeY[recorridoEjeX.length-1]][recorridoEjeX[recorridoEjeX.length-1]] = '<div class="recorrido"><img width=25 src="img/raton.png"/></div>';
+					tablero[recorridoEjeY[(recorridoEjeX.length-1)-3]][recorridoEjeX[(recorridoEjeX.length-1)-3]] = '<div class="celdas"><img width=25 src="img/gato.jpg"/></div>';
 					mostrarTablero();
 				}
 				
