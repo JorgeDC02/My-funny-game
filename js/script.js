@@ -1,9 +1,11 @@
 /**
  * Created by Jordi on 05/04/2022.
  */
-var tablero = new Array(fila);
+
 //todo reordenar orden del programa
+
 var fila = 18; var columna = 21;
+var tablero = new Array(fila);
 
 var perseguidor = new Array(2); //0=>Eje X, 1=>Eje Y
 perseguidor[0] = 0;//Posicion inicial del objeto perseguidor, eje X
