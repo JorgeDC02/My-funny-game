@@ -15,22 +15,36 @@ var recorridoEjeY = [];
 
 var acumulaSuma = 0;
 var desplazamiento = 0;
-var jugadorEjeX;
-var jugadorEjeY;
+//var jugadorEjeX;
+//var jugadorEjeY;
 
 var ultimoMovimiento = -1;
 
-//Guardar tablero en mem�ria
-for(var i=0; i<fila; i++) {
-    tablero[i] = new Array(columna);
+function generarTablero(){
+    console.log("---------------generarTablero()---------------");
+    for(var i=0; i<fila; i++) {
+        tablero[i] = new Array(columna);
+    }
+
+    for(var j=0; j<fila; j++) {
+        for(var i=0; i<columna; i++) {
+            //Añadir al tablero las celdas
+            tablero[j][i] = "<div class='celdas'></div>"
+        }
+    }
+    console.log("Se ha generado el tablero con "+fila+" filas y "+columna+" columnas");
 }
 
-for(var j=0; j<fila; j++) {
-    for(var i=0; i<columna; i++) {
-        tablero[j][i] = "<div class='celdas'></div>"
+function mostrarTablero(){
+    console.log("---------------mostrarTablero()---------------");
+    for(var j=0; j<fila; j++) {
+        for(var i=0; i<columna; i++) {
+            //Añadir el tablero al div contenedor
+            $("#tablero").append(tablero[j][i]);
+        }
     }
+    console.log("Se ha mostrado el tablero");
 }
-//Fin guardar tablero en mem�ria
 
 function generarCeldaInicial(){
     recorridoEjeX[0] = 3; //Posici�n inicial del eje X
@@ -43,8 +57,8 @@ function generarCeldaInicial(){
     recorridoEjeY[0] = celdaInicialY;//Guarda en memoria el eje Y de la posicion inicial
     perseguidor[1] =  celdaInicialY; // Guarda en memoria el eje Y de la posicion inicial del perseguidor
 
-    jugadorEjeX = 0;
-    jugadorEjeY = celdaInicialY;
+    //jugadorEjeX = 0;
+    //jugadorEjeY = celdaInicialY;
     tablero[celdaInicialY][recorridoEjeX[0]] = '<div class="recorrido"><img width=25 src="img/raton.png"/></div>';
     tablero[celdaInicialY][perseguidor[0]] = '<div class="celdas"><img width=25 src="img/gato.jpg"/></div>';
 
@@ -160,15 +174,6 @@ function verRecorrido(){
 
 }
 
-function mostrarTablero(){ //Inserta tablero guardado en memo en elemento div
-    console.log("---------------mostrarTablero()---------------");
-    for(var j=0; j<fila; j++) {
-        for(var i=0; i<columna; i++) {
-            $("#tablero").append(tablero[j][i]);
-        }
-    }
-}
-
 function generarNumerosSuma(){
     var num1 = Math.floor((Math.random() * 9)+1); var num2 = Math.floor((Math.random() * 9)+1);
     $(".num1").append(num1); $(".num2").append(num2);
@@ -208,19 +213,13 @@ function generarNumerosSuma(){
         }else{alert("SUMA ERRONEA");}
     });
 }
+generarTablero();
+mostrarTablero();
 
-
-generarCeldaInicial();
+/*generarCeldaInicial();
 generaRecorrido();
 verRecorrido();
 
-generarNumerosSuma();
-mostrarTablero();
+generarNumerosSuma();*/
 
-/*alert(recorridoEjeY[0]);
- $( ".celdas" ).each(function( index ) {
- console.log( index + ": " + $( this ).text() );
- if(index == recorridoEjeY[1]){
- $(this).addClass( "blue" );
- }
- });*/
+
